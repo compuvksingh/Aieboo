@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aieboo.aieboo.FoodList">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/food_sub_list"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/food_item_container_height"/>
+
+</FrameLayout>
