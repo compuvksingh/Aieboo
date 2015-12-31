@@ -23,6 +23,7 @@ class FoodItemViewHolder extends RecyclerView.ViewHolder {
 
     enum ViewTypes {
         MULTIPLE(0),
+        EMPTY(0),
         SINGLE(1);
 
         private final int pos;

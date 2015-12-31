@@ -3,6 +3,7 @@ package com.aieboo.aieboo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,8 +62,13 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodItemViewHolder> {
     @Override
     public void onBindViewHolder(FoodItemViewHolder holder, int position) {
         int viewType = getItemViewType(position);
+        final Resources res = mContext.getResources();
         if (viewType == FoodItemViewHolder.ViewTypes.MULTIPLE.getPos()) {
-            holder.mHorizontalListView.setAdapter(new FoodSubListAdapter(mDataSubset, mContext, activity));
+
+            int leftOverMargin = getEmptyViewWidth();
+
+            holder.mHorizontalListView.setAdapter(
+                    new FoodSubListAdapter(mDataSubset, mContext, activity, leftOverMargin));
             return;
         }
         final FoodItemData foodItemData = mDataset[position - 1];
@@ -78,7 +84,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodItemViewHolder> {
                 int[] screenLocation = new int[2];
                 view.getLocationOnScreen(screenLocation);
                 Intent subActivity = new Intent(mContext, FoodItemDetailsActivity.class);
-                int orientation = mContext.getResources().getConfiguration().orientation;
+                int orientation = res.getConfiguration().orientation;
                 subActivity.
                         putExtra(FoodItemDetailsActivity.PACKAGE + ".orientation", orientation).
                         putExtra(FoodItemDetailsActivity.PACKAGE + ".resourceId", foodItemData.resourceId).
@@ -95,6 +101,26 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodItemViewHolder> {
             }
         });
 
+    }
+
+    private int getEmptyViewWidth() {
+        final Resources res = mContext.getResources();
+        int screenWidthPx = res.getDisplayMetrics().widthPixels -
+                res.getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+
+        int cardWidth = res.getDimensionPixelSize(R.dimen.food_card_width) +
+                res.getDimensionPixelSize(R.dimen.food_card_margin) +
+                res.getDimensionPixelSize(R.dimen.food_card_padding);
+        int leftOver = screenWidthPx % cardWidth;
+        if (leftOver < cardWidth/4) {
+            return leftOver + cardWidth / 4;
+        }
+
+        if (leftOver > 3 * cardWidth / 4) {
+            return (cardWidth - leftOver + cardWidth / 4);
+        }
+
+        return 0;
     }
 
     @Override

@@ -15,23 +15,42 @@ public class FoodSubListAdapter extends RecyclerView.Adapter<FoodItemViewHolder>
     private final FoodItemData[] mDataSubset;
     private Context mContext;
     private final Activity activity;
+    private final int leftOverMargin;
 
-    public FoodSubListAdapter(FoodItemData[] mDataSubset, Context mContext, Activity activity) {
+    public FoodSubListAdapter(FoodItemData[] mDataSubset, Context mContext,
+                              Activity activity, int leftOverMargin) {
         this.mDataSubset = mDataSubset;
         this.mContext = mContext;
         this.activity = activity;
+        this.leftOverMargin = leftOverMargin;
     }
 
     @Override
     public FoodItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.food_item_view, parent, false);
+        View view;
+        if (viewType != FoodItemViewHolder.ViewTypes.EMPTY.getPos()) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.food_item_view, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.food_item_empty_view, parent, false);
+            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+            layoutParams.width = leftOverMargin;
+            view.setLayoutParams(layoutParams);
+        }
+
         return new FoodItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(FoodItemViewHolder holder, int position) {
-        final FoodItemData foodItemData = mDataSubset[position];
+        int viewType = getItemViewType(position);
+
+        if (viewType == FoodItemViewHolder.ViewTypes.MULTIPLE.getPos()) {
+
+            return;
+        }
+        final FoodItemData foodItemData = mDataSubset[position - 1];
         holder.mTextView.setText(foodItemData.name);
         holder.mImageView.setImageResource(foodItemData.resourceId);
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +83,13 @@ public class FoodSubListAdapter extends RecyclerView.Adapter<FoodItemViewHolder>
 
     @Override
     public int getItemCount() {
-        return mDataSubset.length;
+        return mDataSubset.length + 1;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0
+                ? FoodItemViewHolder.ViewTypes.EMPTY.getPos()
+                : FoodItemViewHolder.ViewTypes.SINGLE.getPos();
+    }
 }
