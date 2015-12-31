@@ -12,14 +12,11 @@ import android.view.ViewGroup;
  * Adapter for food lists. This can have horizontal scrollable food item list.
  */
 public class FoodSubListAdapter extends RecyclerView.Adapter<FoodItemViewHolder> {
-    private final FoodItemData[] mDataSubset;
     private Context mContext;
     private final Activity activity;
     private final int leftOverMargin;
 
-    public FoodSubListAdapter(FoodItemData[] mDataSubset, Context mContext,
-                              Activity activity, int leftOverMargin) {
-        this.mDataSubset = mDataSubset;
+    public FoodSubListAdapter(Context mContext, Activity activity, int leftOverMargin) {
         this.mContext = mContext;
         this.activity = activity;
         this.leftOverMargin = leftOverMargin;
@@ -50,7 +47,7 @@ public class FoodSubListAdapter extends RecyclerView.Adapter<FoodItemViewHolder>
 
             return;
         }
-        final FoodItemData foodItemData = mDataSubset[position - 1];
+        final FoodItemData foodItemData = FoodItemData.SECONDARY_FOOD_LIST[position - 1];
         holder.mTextView.setText(foodItemData.name);
         holder.mImageView.setImageResource(foodItemData.resourceId);
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +80,7 @@ public class FoodSubListAdapter extends RecyclerView.Adapter<FoodItemViewHolder>
 
     @Override
     public int getItemCount() {
-        return mDataSubset.length + 1;
+        return FoodItemData.SECONDARY_FOOD_LIST.length + 1;
     }
 
     @Override

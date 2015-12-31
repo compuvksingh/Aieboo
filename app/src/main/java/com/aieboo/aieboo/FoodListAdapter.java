@@ -16,23 +16,10 @@ import android.view.ViewGroup;
  */
 public class FoodListAdapter extends RecyclerView.Adapter<FoodItemViewHolder> {
 
-    final private static FoodItemData[] mDataSubset = new FoodItemData[]{
-            new FoodItemData("Chilli Paneer", R.drawable.chilli_paneer),
-            new FoodItemData("Kadai Paneer", R.drawable.kadai_paneer),
-            new FoodItemData("Palak Paneer", R.drawable.palak_paneer),
-            new FoodItemData("Paneer bhurji", R.drawable.paneer_bhurji),
-            new FoodItemData("Paneer butter masala", R.drawable.paneer_butter_masala),
-            new FoodItemData("Paneer cutlet", R.drawable.paneer_cutlet),
-            new FoodItemData("Sahi paneer", R.drawable.shahi_paneer),
-            new FoodItemData("Tandoori paneer tikka", R.drawable.tandoori_paneer_tikka)
-    };
-
-    private FoodItemData[] mDataset;
     private final Context mContext;
     private final Activity activity;
 
-    public FoodListAdapter(FoodItemData[] mDataset, Context context, Activity activity) {
-        this.mDataset = mDataset;
+    public FoodListAdapter(Context context, Activity activity) {
         this.mContext = context;
         this.activity = activity;
     }
@@ -68,10 +55,10 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodItemViewHolder> {
             int leftOverMargin = getEmptyViewWidth();
 
             holder.mHorizontalListView.setAdapter(
-                    new FoodSubListAdapter(mDataSubset, mContext, activity, leftOverMargin));
+                    new FoodSubListAdapter(mContext, activity, leftOverMargin));
             return;
         }
-        final FoodItemData foodItemData = mDataset[position - 1];
+        final FoodItemData foodItemData = FoodItemData.PRIMARY_FOOD_LIST[position - 1];
         holder.mTextView.setText(foodItemData.name);
         holder.mImageView.setImageResource(foodItemData.resourceId);
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +112,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodItemViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mDataset.length + 1;
+        return FoodItemData.PRIMARY_FOOD_LIST.length + 1;
     }
 
     @Override

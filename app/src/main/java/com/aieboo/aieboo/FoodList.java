@@ -10,14 +10,6 @@ public class FoodList extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
-    private FoodItemData[] mDataset = new FoodItemData[]{
-            new FoodItemData("Punjabi Samosa", R.drawable.punjabi_samosa, "http://gdurl.com/xoVT"),
-            new FoodItemData("Afghani Biryani", R.drawable.afghani_biryani),
-            new FoodItemData("Kashmiri Biryani", R.drawable.kashmiri_biryani),
-            new FoodItemData("Mughlai Biryani", R.drawable.mughlai_biryani),
-            new FoodItemData("Hyderabad Biryani", R.drawable.hyderabad_biryani),
-            new FoodItemData("Lucknowi Biryani", R.drawable.lucknowi_biryani)
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +22,7 @@ public class FoodList extends AppCompatActivity {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new FoodListAdapter(mDataset, this, this);
+        mAdapter = new FoodListAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 }

@@ -219,8 +219,6 @@ public class FoodItemDetailsActivity extends Activity {
                         colorizer.start();
                     }
                 });
-
-
     }
 
     /**
